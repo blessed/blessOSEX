@@ -1,5 +1,5 @@
 INCLUDE_DIR = $(KERNEL_SRC)/inc
-BUILD_DIR = $(KERNEL_SRC)/build
+OBJ_DIR = $(KERNEL_SRC)/obj
 DISASM_DIR = $(KERNEL_SRC)/disasm
 
 AS = as
@@ -10,48 +10,50 @@ CFLAGS = -Wall -Wextra -Wno-main -m32 -nostdinc -nostdlib -fno-builtin -I$(INCLU
 LDFLAGS = -Tscript.ld
 SOURCES=$(shell find . -iname '*.cpp')
 
-.PHONY: all clean bochs qemu qemu_debug
+.PHONY: all clean bochs qemu qemu_debug info
 
 KERNEL_SRC = /home/blessed/Programowanie/blessOS/ex
 
 %.o : %.s
-	@$(AS) $(ASFLAGS) $< -o $@
+	$(AS) $(ASFLAGS) $< -o $@
 
 %.o : %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 %.disasm : %.o
 	@objdump -DSr $< > $@
 
-all: main image disasm
+all:main image disasm
 	@echo "Done. System successfully built."
 
-sources := $(shell find $(KERNEL_SRC) -name '*.c')
-objects := $(addprefix $(BUILD_DIR)/,$(sources:%.c=%.o))
+sources := $(shell find $(KERNEL_SRC) -regex '.*\.\(c\|s\)')
+SRCDIRS = $(shell find $(KERNEL_SRC)/src -type d | sed 's/src/./g')
+#objects := $(addprefix $(OBJ_DIR)/,$(sources:%.c=%.o))
+#objects := $(patsubst $(KERNEL_SRC)/src/%.c,%.o,$(sources))
+objects := $(patsubst %.c,%.o,$(sources))
+objects := $(patsubst %.s,%.o,$(objects))
 disasms := $(objects:%.o=%.disasm)
 
-main: $(BUILD_DIR) $(objects)
+info:
+	$(info $(objects))
+
+main: $(objects)
 	@echo -n "Building the system... "
 	$(LD) $(LDFLAGS) $^ -o $@ -M > kernel.map
 	objcopy -O binary $@ $@.bin
 	@echo "Done"
 
 image:
-	@echo -n "Writing the image to floppy... "
+	@echo "Writing the image to floppy... "
 	dd of=floppy.img if=main.bin bs=1 seek=512
-	@echo "Done"
 
 disasm: $(DISASM_DIR) $(disasms)
 	@echo "Disassembling system object files"
 
 clean:
-	@echo -n "Cleaning object files... "
-	-@rm $(objects)
-	@echo "Done"
+	@echo "Cleaning object files... "
+	-@rm -f $(objects)
 
-$(BUILD_DIR):
-	mkdir -p $@
-
-$(DISASM_DIR):
+$(OBJ_DIR):
 	mkdir -p $@
 

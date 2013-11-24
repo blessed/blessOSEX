@@ -15,10 +15,10 @@ SOURCES=$(shell find . -iname '*.cpp')
 KERNEL_SRC = /home/blessed/Programowanie/blessOS/ex
 
 %.o : %.s
-	$(AS) $(ASFLAGS) $< -o $@
+	@$(AS) $(ASFLAGS) $< -o $@
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 %.disasm : %.o
 	@objdump -DSr $< > $@
@@ -39,9 +39,8 @@ info:
 
 main: $(objects)
 	@echo -n "Building the system... "
-	$(LD) $(LDFLAGS) $^ -o $@ -M > kernel.map
+	@$(LD) $(LDFLAGS) $^ -o $@ -M > kernel.map
 	objcopy -O binary $@ $@.bin
-	@echo "Done"
 
 image:
 	@echo "Writing the image to floppy... "
@@ -49,6 +48,9 @@ image:
 
 disasm: $(DISASM_DIR) $(disasms)
 	@echo "Disassembling system object files"
+
+qemu:
+	qemu -fda floppy.img -hda disk.img -boot a -m 8
 
 clean:
 	@echo "Cleaning object files... "

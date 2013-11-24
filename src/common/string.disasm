@@ -1,0 +1,829 @@
+
+/home/blessed/Programowanie/blessOS/ex/src/common/string.o:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00000000 <memcpy>:
+/* This file is part of the GLEG engine (GPL v2 or later), see LICENSE.html */
+
+#include "common/string.h"
+
+void* memcpy(void *dst, void *src, size_t n)
+{
+   0:	55                   	push   %ebp
+   1:	89 e5                	mov    %esp,%ebp
+   3:	83 ec 10             	sub    $0x10,%esp
+    const char *sp = (const char *)src;
+   6:	8b 45 0c             	mov    0xc(%ebp),%eax
+   9:	89 45 fc             	mov    %eax,-0x4(%ebp)
+    char *dp = (char *)dst;
+   c:	8b 45 08             	mov    0x8(%ebp),%eax
+   f:	89 45 f8             	mov    %eax,-0x8(%ebp)
+
+    for (; n > 0; --n)
+  12:	eb 17                	jmp    2b <memcpy+0x2b>
+        *dp++ = *sp++;
+  14:	8b 45 fc             	mov    -0x4(%ebp),%eax
+  17:	0f b6 10             	movzbl (%eax),%edx
+  1a:	8b 45 f8             	mov    -0x8(%ebp),%eax
+  1d:	88 10                	mov    %dl,(%eax)
+  1f:	83 45 f8 01          	addl   $0x1,-0x8(%ebp)
+  23:	83 45 fc 01          	addl   $0x1,-0x4(%ebp)
+void* memcpy(void *dst, void *src, size_t n)
+{
+    const char *sp = (const char *)src;
+    char *dp = (char *)dst;
+
+    for (; n > 0; --n)
+  27:	83 6d 10 01          	subl   $0x1,0x10(%ebp)
+  2b:	83 7d 10 00          	cmpl   $0x0,0x10(%ebp)
+  2f:	7f e3                	jg     14 <memcpy+0x14>
+        *dp++ = *sp++;
+
+    return dst;
+  31:	8b 45 08             	mov    0x8(%ebp),%eax
+}
+  34:	c9                   	leave  
+  35:	c3                   	ret    
+
+00000036 <memset>:
+
+void *memset(void *dst, char val, size_t n)
+{
+  36:	55                   	push   %ebp
+  37:	89 e5                	mov    %esp,%ebp
+  39:	83 ec 14             	sub    $0x14,%esp
+  3c:	8b 45 0c             	mov    0xc(%ebp),%eax
+  3f:	88 45 ec             	mov    %al,-0x14(%ebp)
+    char *dp = (char *)dst;
+  42:	8b 45 08             	mov    0x8(%ebp),%eax
+  45:	89 45 fc             	mov    %eax,-0x4(%ebp)
+
+    for (; n > 0; --n)
+  48:	eb 11                	jmp    5b <memset+0x25>
+    {
+        *dp++ = val;
+  4a:	8b 45 fc             	mov    -0x4(%ebp),%eax
+  4d:	0f b6 55 ec          	movzbl -0x14(%ebp),%edx
+  51:	88 10                	mov    %dl,(%eax)
+  53:	83 45 fc 01          	addl   $0x1,-0x4(%ebp)
+
+void *memset(void *dst, char val, size_t n)
+{
+    char *dp = (char *)dst;
+
+    for (; n > 0; --n)
+  57:	83 6d 10 01          	subl   $0x1,0x10(%ebp)
+  5b:	83 7d 10 00          	cmpl   $0x0,0x10(%ebp)
+  5f:	7f e9                	jg     4a <memset+0x14>
+    {
+        *dp++ = val;
+    }
+
+    return dst;
+  61:	8b 45 08             	mov    0x8(%ebp),%eax
+}
+  64:	c9                   	leave  
+  65:	c3                   	ret    
+
+Disassembly of section .debug_info:
+
+00000000 <.debug_info>:
+/* This file is part of the GLEG engine (GPL v2 or later), see LICENSE.html */
+
+#include "common/string.h"
+
+void* memcpy(void *dst, void *src, size_t n)
+{
+   0:	10 01                	adc    %al,(%ecx)
+   2:	00 00                	add    %al,(%eax)
+   4:	02 00                	add    (%eax),%al
+    const char *sp = (const char *)src;
+   6:	00 00                	add    %al,(%eax)
+			6: R_386_32	.debug_abbrev
+   8:	00 00                	add    %al,(%eax)
+   a:	04 01                	add    $0x1,%al
+    char *dp = (char *)dst;
+   c:	22 00                	and    (%eax),%al
+			c: R_386_32	.debug_str
+   e:	00 00                	add    %al,(%eax)
+  10:	01 54 00 00          	add    %edx,0x0(%eax,%eax,1)
+			11: R_386_32	.debug_str
+
+    for (; n > 0; --n)
+        *dp++ = *sp++;
+  14:	00 00                	add    %al,(%eax)
+			15: R_386_32	.text
+  16:	00 00                	add    %al,(%eax)
+  18:	00 66 00             	add    %ah,0x0(%esi)
+			19: R_386_32	.text
+  1b:	00 00                	add    %al,(%eax)
+  1d:	00 00                	add    %al,(%eax)
+			1d: R_386_32	.debug_line
+  1f:	00 00                	add    %al,(%eax)
+  21:	02 04 27             	add    (%edi,%eiz,1),%al
+  24:	00 00                	add    %al,(%eax)
+  26:	00 03                	add    %al,(%ebx)
+void* memcpy(void *dst, void *src, size_t n)
+{
+    const char *sp = (const char *)src;
+    char *dp = (char *)dst;
+
+    for (; n > 0; --n)
+  28:	01 06                	add    %eax,(%esi)
+  2a:	4f                   	dec    %edi
+			2a: R_386_32	.debug_str
+  2b:	00 00                	add    %al,(%eax)
+  2d:	00 04 0d 00 00 00 02 	add    %al,0x2000000(,%ecx,1)
+			2f: R_386_32	.debug_str
+        *dp++ = *sp++;
+
+    return dst;
+}
+  34:	12 39                	adc    (%ecx),%bh
+
+void *memset(void *dst, char val, size_t n)
+{
+  36:	00 00                	add    %al,(%eax)
+  38:	00 05 04 05 69 6e    	add    %al,0x6e690504
+  3e:	74 00                	je     40 <.debug_info+0x40>
+  40:	03 04 07             	add    (%edi,%eax,1),%eax
+    char *dp = (char *)dst;
+  43:	00 00                	add    %al,(%eax)
+			43: R_386_32	.debug_str
+  45:	00 00                	add    %al,(%eax)
+  47:	03 02                	add    (%edx),%eax
+
+    for (; n > 0; --n)
+  49:	07                   	pop    %es
+    {
+        *dp++ = val;
+  4a:	2e 00 00             	add    %al,%cs:(%eax)
+			4a: R_386_32	.debug_str
+  4d:	00 03                	add    %al,(%ebx)
+  4f:	01 08                	add    %ecx,(%eax)
+  51:	14 00                	adc    $0x0,%al
+			51: R_386_32	.debug_str
+  53:	00 00                	add    %al,(%eax)
+  55:	06                   	push   %es
+  56:	01 48 00             	add    %ecx,0x0(%eax)
+			57: R_386_32	.debug_str
+
+void *memset(void *dst, char val, size_t n)
+{
+    char *dp = (char *)dst;
+
+    for (; n > 0; --n)
+  59:	00 00                	add    %al,(%eax)
+  5b:	01 05 01 b6 00 00    	add    %eax,0xb601
+    {
+        *dp++ = val;
+    }
+
+    return dst;
+  61:	00 00                	add    %al,(%eax)
+			62: R_386_32	.text
+  63:	00 00                	add    %al,(%eax)
+}
+  65:	00 36                	add    %dh,(%esi)
+			66: R_386_32	.text
+  67:	00 00                	add    %al,(%eax)
+  69:	00 00                	add    %al,(%eax)
+			6a: R_386_32	.debug_loc
+  6b:	00 00                	add    %al,(%eax)
+  6d:	00 01                	add    %al,(%ecx)
+  6f:	b6 00                	mov    $0x0,%dh
+  71:	00 00                	add    %al,(%eax)
+  73:	07                   	pop    %es
+  74:	64                   	fs
+  75:	73 74                	jae    eb <.debug_info+0xeb>
+  77:	00 01                	add    %al,(%ecx)
+  79:	05 b6 00 00 00       	add    $0xb6,%eax
+  7e:	02 91 00 07 73 72    	add    0x72730700(%ecx),%dl
+  84:	63 00                	arpl   %ax,(%eax)
+  86:	01 05 b6 00 00 00    	add    %eax,0xb6
+  8c:	02 91 04 07 6e 00    	add    0x6e0704(%ecx),%dl
+  92:	01 05 2e 00 00 00    	add    %eax,0x2e
+  98:	02 91 08 08 73 70    	add    0x70730808(%ecx),%dl
+  9e:	00 01                	add    %al,(%ecx)
+  a0:	07                   	pop    %es
+  a1:	b8 00 00 00 02       	mov    $0x2000000,%eax
+  a6:	91                   	xchg   %eax,%ecx
+  a7:	74 08                	je     b1 <.debug_info+0xb1>
+  a9:	64                   	fs
+  aa:	70 00                	jo     ac <.debug_info+0xac>
+  ac:	01 08                	add    %ecx,(%eax)
+  ae:	21 00                	and    %eax,(%eax)
+  b0:	00 00                	add    %al,(%eax)
+  b2:	02 91 70 00 09 04    	add    0x4090070(%ecx),%dl
+  b8:	02 04 be             	add    (%esi,%edi,4),%al
+  bb:	00 00                	add    %al,(%eax)
+  bd:	00 0a                	add    %cl,(%edx)
+  bf:	27                   	daa    
+  c0:	00 00                	add    %al,(%eax)
+  c2:	00 0b                	add    %cl,(%ebx)
+  c4:	01 41 00             	add    %eax,0x0(%ecx)
+			c5: R_386_32	.debug_str
+  c7:	00 00                	add    %al,(%eax)
+  c9:	01 10                	add    %edx,(%eax)
+  cb:	01 b6 00 00 00 36    	add    %esi,0x36000000(%esi)
+			d0: R_386_32	.text
+  d1:	00 00                	add    %al,(%eax)
+  d3:	00 66 00             	add    %ah,0x0(%esi)
+			d4: R_386_32	.text
+  d6:	00 00                	add    %al,(%eax)
+  d8:	38 00                	cmp    %al,(%eax)
+			d8: R_386_32	.debug_loc
+  da:	00 00                	add    %al,(%eax)
+  dc:	01 07                	add    %eax,(%edi)
+  de:	64                   	fs
+  df:	73 74                	jae    155 <memset+0x11f>
+  e1:	00 01                	add    %al,(%ecx)
+  e3:	10 b6 00 00 00 02    	adc    %dh,0x2000000(%esi)
+  e9:	91                   	xchg   %eax,%ecx
+  ea:	00 07                	add    %al,(%edi)
+  ec:	76 61                	jbe    14f <memset+0x119>
+  ee:	6c                   	insb   (%dx),%es:(%edi)
+  ef:	00 01                	add    %al,(%ecx)
+  f1:	10 27                	adc    %ah,(%edi)
+  f3:	00 00                	add    %al,(%eax)
+  f5:	00 02                	add    %al,(%edx)
+  f7:	91                   	xchg   %eax,%ecx
+  f8:	64                   	fs
+  f9:	07                   	pop    %es
+  fa:	6e                   	outsb  %ds:(%esi),(%dx)
+  fb:	00 01                	add    %al,(%ecx)
+  fd:	10 2e                	adc    %ch,(%esi)
+  ff:	00 00                	add    %al,(%eax)
+ 101:	00 02                	add    %al,(%edx)
+ 103:	91                   	xchg   %eax,%ecx
+ 104:	08 08                	or     %cl,(%eax)
+ 106:	64                   	fs
+ 107:	70 00                	jo     109 <.debug_info+0x109>
+ 109:	01 12                	add    %edx,(%edx)
+ 10b:	21 00                	and    %eax,(%eax)
+ 10d:	00 00                	add    %al,(%eax)
+ 10f:	02                   	.byte 0x2
+ 110:	91                   	xchg   %eax,%ecx
+ 111:	74 00                	je     113 <.debug_info+0x113>
+	...
+
+Disassembly of section .debug_abbrev:
+
+00000000 <.debug_abbrev>:
+/* This file is part of the GLEG engine (GPL v2 or later), see LICENSE.html */
+
+#include "common/string.h"
+
+void* memcpy(void *dst, void *src, size_t n)
+{
+   0:	01 11                	add    %edx,(%ecx)
+   2:	01 25 0e 13 0b 03    	add    %esp,0x30b130e
+    const char *sp = (const char *)src;
+   8:	0e                   	push   %cs
+   9:	11 01                	adc    %eax,(%ecx)
+   b:	12 01                	adc    (%ecx),%al
+    char *dp = (char *)dst;
+   d:	10 06                	adc    %al,(%esi)
+   f:	00 00                	add    %al,(%eax)
+  11:	02 0f                	add    (%edi),%cl
+
+    for (; n > 0; --n)
+  13:	00 0b                	add    %cl,(%ebx)
+        *dp++ = *sp++;
+  15:	0b 49 13             	or     0x13(%ecx),%ecx
+  18:	00 00                	add    %al,(%eax)
+  1a:	03 24 00             	add    (%eax,%eax,1),%esp
+  1d:	0b 0b                	or     (%ebx),%ecx
+  1f:	3e 0b 03             	or     %ds:(%ebx),%eax
+  22:	0e                   	push   %cs
+  23:	00 00                	add    %al,(%eax)
+  25:	04 16                	add    $0x16,%al
+void* memcpy(void *dst, void *src, size_t n)
+{
+    const char *sp = (const char *)src;
+    char *dp = (char *)dst;
+
+    for (; n > 0; --n)
+  27:	00 03                	add    %al,(%ebx)
+  29:	0e                   	push   %cs
+  2a:	3a 0b                	cmp    (%ebx),%cl
+  2c:	3b 0b                	cmp    (%ebx),%ecx
+  2e:	49                   	dec    %ecx
+  2f:	13 00                	adc    (%eax),%eax
+        *dp++ = *sp++;
+
+    return dst;
+  31:	00 05 24 00 0b 0b    	add    %al,0xb0b0024
+}
+
+void *memset(void *dst, char val, size_t n)
+{
+  37:	3e 0b 03             	or     %ds:(%ebx),%eax
+  3a:	08 00                	or     %al,(%eax)
+  3c:	00 06                	add    %al,(%esi)
+  3e:	2e 01 3f             	add    %edi,%cs:(%edi)
+  41:	0c 03                	or     $0x3,%al
+    char *dp = (char *)dst;
+  43:	0e                   	push   %cs
+  44:	3a 0b                	cmp    (%ebx),%cl
+  46:	3b 0b                	cmp    (%ebx),%ecx
+
+    for (; n > 0; --n)
+  48:	27                   	daa    
+  49:	0c 49                	or     $0x49,%al
+    {
+        *dp++ = val;
+  4b:	13 11                	adc    (%ecx),%edx
+  4d:	01 12                	add    %edx,(%edx)
+  4f:	01 40 06             	add    %eax,0x6(%eax)
+  52:	97                   	xchg   %eax,%edi
+  53:	42                   	inc    %edx
+  54:	0c 01                	or     $0x1,%al
+  56:	13 00                	adc    (%eax),%eax
+
+void *memset(void *dst, char val, size_t n)
+{
+    char *dp = (char *)dst;
+
+    for (; n > 0; --n)
+  58:	00 07                	add    %al,(%edi)
+  5a:	05 00 03 08 3a       	add    $0x3a080300,%eax
+  5f:	0b 3b                	or     (%ebx),%edi
+    {
+        *dp++ = val;
+    }
+
+    return dst;
+  61:	0b 49 13             	or     0x13(%ecx),%ecx
+}
+  64:	02 0a                	add    (%edx),%cl
+  66:	00 00                	add    %al,(%eax)
+  68:	08 34 00             	or     %dh,(%eax,%eax,1)
+  6b:	03 08                	add    (%eax),%ecx
+  6d:	3a 0b                	cmp    (%ebx),%cl
+  6f:	3b 0b                	cmp    (%ebx),%ecx
+  71:	49                   	dec    %ecx
+  72:	13 02                	adc    (%edx),%eax
+  74:	0a 00                	or     (%eax),%al
+  76:	00 09                	add    %cl,(%ecx)
+  78:	0f 00 0b             	str    (%ebx)
+  7b:	0b 00                	or     (%eax),%eax
+  7d:	00 0a                	add    %cl,(%edx)
+  7f:	26 00 49 13          	add    %cl,%es:0x13(%ecx)
+  83:	00 00                	add    %al,(%eax)
+  85:	0b 2e                	or     (%esi),%ebp
+  87:	01 3f                	add    %edi,(%edi)
+  89:	0c 03                	or     $0x3,%al
+  8b:	0e                   	push   %cs
+  8c:	3a 0b                	cmp    (%ebx),%cl
+  8e:	3b 0b                	cmp    (%ebx),%ecx
+  90:	27                   	daa    
+  91:	0c 49                	or     $0x49,%al
+  93:	13 11                	adc    (%ecx),%edx
+  95:	01 12                	add    %edx,(%edx)
+  97:	01 40 06             	add    %eax,0x6(%eax)
+  9a:	97                   	xchg   %eax,%edi
+  9b:	42                   	inc    %edx
+  9c:	0c 00                	or     $0x0,%al
+	...
+
+Disassembly of section .debug_loc:
+
+00000000 <.debug_loc>:
+/* This file is part of the GLEG engine (GPL v2 or later), see LICENSE.html */
+
+#include "common/string.h"
+
+void* memcpy(void *dst, void *src, size_t n)
+{
+   0:	00 00                	add    %al,(%eax)
+   2:	00 00                	add    %al,(%eax)
+   4:	01 00                	add    %eax,(%eax)
+    const char *sp = (const char *)src;
+   6:	00 00                	add    %al,(%eax)
+   8:	02 00                	add    (%eax),%al
+   a:	74 04                	je     10 <.debug_loc+0x10>
+    char *dp = (char *)dst;
+   c:	01 00                	add    %eax,(%eax)
+   e:	00 00                	add    %al,(%eax)
+  10:	03 00                	add    (%eax),%eax
+
+    for (; n > 0; --n)
+  12:	00 00                	add    %al,(%eax)
+        *dp++ = *sp++;
+  14:	02 00                	add    (%eax),%al
+  16:	74 08                	je     20 <.debug_loc+0x20>
+  18:	03 00                	add    (%eax),%eax
+  1a:	00 00                	add    %al,(%eax)
+  1c:	35 00 00 00 02       	xor    $0x2000000,%eax
+  21:	00 75 08             	add    %dh,0x8(%ebp)
+  24:	35 00 00 00 36       	xor    $0x36000000,%eax
+void* memcpy(void *dst, void *src, size_t n)
+{
+    const char *sp = (const char *)src;
+    char *dp = (char *)dst;
+
+    for (; n > 0; --n)
+  29:	00 00                	add    %al,(%eax)
+  2b:	00 02                	add    %al,(%edx)
+  2d:	00 74 04 00          	add    %dh,0x0(%esp,%eax,1)
+        *dp++ = *sp++;
+
+    return dst;
+  31:	00 00                	add    %al,(%eax)
+  33:	00 00                	add    %al,(%eax)
+}
+  35:	00 00                	add    %al,(%eax)
+
+void *memset(void *dst, char val, size_t n)
+{
+  37:	00 36                	add    %dh,(%esi)
+  39:	00 00                	add    %al,(%eax)
+  3b:	00 37                	add    %dh,(%edi)
+  3d:	00 00                	add    %al,(%eax)
+  3f:	00 02                	add    %al,(%edx)
+  41:	00 74 04 37          	add    %dh,0x37(%esp,%eax,1)
+    char *dp = (char *)dst;
+  45:	00 00                	add    %al,(%eax)
+  47:	00 39                	add    %bh,(%ecx)
+
+    for (; n > 0; --n)
+  49:	00 00                	add    %al,(%eax)
+    {
+        *dp++ = val;
+  4b:	00 02                	add    %al,(%edx)
+  4d:	00 74 08 39          	add    %dh,0x39(%eax,%ecx,1)
+  51:	00 00                	add    %al,(%eax)
+  53:	00 65 00             	add    %ah,0x0(%ebp)
+  56:	00 00                	add    %al,(%eax)
+
+void *memset(void *dst, char val, size_t n)
+{
+    char *dp = (char *)dst;
+
+    for (; n > 0; --n)
+  58:	02 00                	add    (%eax),%al
+  5a:	75 08                	jne    64 <.debug_loc+0x64>
+  5c:	65 00 00             	add    %al,%gs:(%eax)
+  5f:	00 66 00             	add    %ah,0x0(%esi)
+    {
+        *dp++ = val;
+    }
+
+    return dst;
+  62:	00 00                	add    %al,(%eax)
+}
+  64:	02 00                	add    (%eax),%al
+  66:	74 04                	je     6c <.debug_loc+0x6c>
+	...
+
+Disassembly of section .debug_aranges:
+
+00000000 <.debug_aranges>:
+/* This file is part of the GLEG engine (GPL v2 or later), see LICENSE.html */
+
+#include "common/string.h"
+
+void* memcpy(void *dst, void *src, size_t n)
+{
+   0:	1c 00                	sbb    $0x0,%al
+   2:	00 00                	add    %al,(%eax)
+   4:	02 00                	add    (%eax),%al
+    const char *sp = (const char *)src;
+   6:	00 00                	add    %al,(%eax)
+			6: R_386_32	.debug_info
+   8:	00 00                	add    %al,(%eax)
+   a:	04 00                	add    $0x0,%al
+	...
+			10: R_386_32	.text
+    char *dp = (char *)dst;
+
+    for (; n > 0; --n)
+        *dp++ = *sp++;
+  14:	66                   	data16
+	...
+
+Disassembly of section .debug_line:
+
+00000000 <.debug_line>:
+/* This file is part of the GLEG engine (GPL v2 or later), see LICENSE.html */
+
+#include "common/string.h"
+
+void* memcpy(void *dst, void *src, size_t n)
+{
+   0:	ce                   	into   
+   1:	00 00                	add    %al,(%eax)
+   3:	00 02                	add    %al,(%edx)
+   5:	00 8e 00 00 00 01    	add    %cl,0x1000000(%esi)
+    const char *sp = (const char *)src;
+   b:	01 fb                	add    %edi,%ebx
+    char *dp = (char *)dst;
+   d:	0e                   	push   %cs
+   e:	0d 00 01 01 01       	or     $0x1010100,%eax
+
+    for (; n > 0; --n)
+  13:	01 00                	add    %eax,(%eax)
+        *dp++ = *sp++;
+  15:	00 00                	add    %al,(%eax)
+  17:	01 00                	add    %eax,(%eax)
+  19:	00 01                	add    %al,(%ecx)
+  1b:	2f                   	das    
+  1c:	68 6f 6d 65 2f       	push   $0x2f656d6f
+  21:	62 6c 65 73          	bound  %ebp,0x73(%ebp,%eiz,2)
+  25:	73 65                	jae    8c <.debug_line+0x8c>
+void* memcpy(void *dst, void *src, size_t n)
+{
+    const char *sp = (const char *)src;
+    char *dp = (char *)dst;
+
+    for (; n > 0; --n)
+  27:	64                   	fs
+  28:	2f                   	das    
+  29:	50                   	push   %eax
+  2a:	72 6f                	jb     9b <.debug_line+0x9b>
+  2c:	67 72 61             	addr16 jb 90 <.debug_line+0x90>
+  2f:	6d                   	insl   (%dx),%es:(%edi)
+  30:	6f                   	outsl  %ds:(%esi),(%dx)
+        *dp++ = *sp++;
+
+    return dst;
+  31:	77 61                	ja     94 <.debug_line+0x94>
+  33:	6e                   	outsb  %ds:(%esi),(%dx)
+}
+  34:	69 65 2f 62 6c 65 73 	imul   $0x73656c62,0x2f(%ebp),%esp
+
+void *memset(void *dst, char val, size_t n)
+{
+  3b:	73 4f                	jae    8c <.debug_line+0x8c>
+  3d:	53                   	push   %ebx
+  3e:	2f                   	das    
+  3f:	65                   	gs
+  40:	78 2f                	js     71 <.debug_line+0x71>
+    char *dp = (char *)dst;
+  42:	73 72                	jae    b6 <.debug_line+0xb6>
+  44:	63 2f                	arpl   %bp,(%edi)
+  46:	63 6f 6d             	arpl   %bp,0x6d(%edi)
+
+    for (; n > 0; --n)
+  49:	6d                   	insl   (%dx),%es:(%edi)
+    {
+        *dp++ = val;
+  4a:	6f                   	outsl  %ds:(%esi),(%dx)
+  4b:	6e                   	outsb  %ds:(%esi),(%dx)
+  4c:	00 2f                	add    %ch,(%edi)
+  4e:	68 6f 6d 65 2f       	push   $0x2f656d6f
+  53:	62 6c 65 73          	bound  %ebp,0x73(%ebp,%eiz,2)
+
+void *memset(void *dst, char val, size_t n)
+{
+    char *dp = (char *)dst;
+
+    for (; n > 0; --n)
+  57:	73 65                	jae    be <.debug_line+0xbe>
+  59:	64                   	fs
+  5a:	2f                   	das    
+  5b:	50                   	push   %eax
+  5c:	72 6f                	jb     cd <.debug_line+0xcd>
+  5e:	67 72 61             	addr16 jb c2 <.debug_line+0xc2>
+    {
+        *dp++ = val;
+    }
+
+    return dst;
+  61:	6d                   	insl   (%dx),%es:(%edi)
+  62:	6f                   	outsl  %ds:(%esi),(%dx)
+  63:	77 61                	ja     c6 <.debug_line+0xc6>
+}
+  65:	6e                   	outsb  %ds:(%esi),(%dx)
+  66:	69 65 2f 62 6c 65 73 	imul   $0x73656c62,0x2f(%ebp),%esp
+  6d:	73 4f                	jae    be <.debug_line+0xbe>
+  6f:	53                   	push   %ebx
+  70:	2f                   	das    
+  71:	65                   	gs
+  72:	78 2f                	js     a3 <.debug_line+0xa3>
+  74:	69 6e 63 2f 63 6f 6d 	imul   $0x6d6f632f,0x63(%esi),%ebp
+  7b:	6d                   	insl   (%dx),%es:(%edi)
+  7c:	6f                   	outsl  %ds:(%esi),(%dx)
+  7d:	6e                   	outsb  %ds:(%esi),(%dx)
+  7e:	00 00                	add    %al,(%eax)
+  80:	73 74                	jae    f6 <memset+0xc0>
+  82:	72 69                	jb     ed <memset+0xb7>
+  84:	6e                   	outsb  %ds:(%esi),(%dx)
+  85:	67 2e 63 00          	arpl   %ax,%cs:(%bx,%si)
+  89:	01 00                	add    %eax,(%eax)
+  8b:	00 74 79 70          	add    %dh,0x70(%ecx,%edi,2)
+  8f:	65                   	gs
+  90:	73 2e                	jae    c0 <.debug_line+0xc0>
+  92:	68 00 02 00 00       	push   $0x200
+  97:	00 00                	add    %al,(%eax)
+  99:	05 02 00 00 00       	add    $0x2,%eax
+			9b: R_386_32	.text
+  9e:	00 17                	add    %dl,(%edi)
+  a0:	67 67 68 00 02 04 02 	addr32 addr16 push $0x2040200
+  a7:	2f                   	das    
+  a8:	00 02                	add    %al,(%edx)
+  aa:	04 02                	add    $0x2,%al
+  ac:	08 2d 00 02 04 01    	or     %ch,0x1040200
+  b2:	06                   	push   %es
+  b3:	4a                   	dec    %edx
+  b4:	06                   	push   %es
+  b5:	69 3d 31 bb 68 00 02 	imul   $0x30020402,0x68bb31,%edi
+  bc:	04 02 30 
+  bf:	00 02                	add    %al,(%edx)
+  c1:	04 02                	add    $0x2,%al
+  c3:	c6 00 02             	movb   $0x2,(%eax)
+  c6:	04 01                	add    $0x1,%al
+  c8:	06                   	push   %es
+  c9:	4a                   	dec    %edx
+  ca:	06                   	push   %es
+  cb:	6b 3d 02 02 00 01 01 	imul   $0x1,0x1000202,%edi
+
+Disassembly of section .debug_str:
+
+00000000 <.debug_str>:
+/* This file is part of the GLEG engine (GPL v2 or later), see LICENSE.html */
+
+#include "common/string.h"
+
+void* memcpy(void *dst, void *src, size_t n)
+{
+   0:	75 6e                	jne    70 <.debug_str+0x70>
+   2:	73 69                	jae    6d <.debug_str+0x6d>
+   4:	67 6e                	outsb  %ds:(%si),(%dx)
+    const char *sp = (const char *)src;
+   6:	65 64 20 69 6e       	gs and %ch,%fs:%gs:0x6e(%ecx)
+   b:	74 00                	je     d <.debug_str+0xd>
+    char *dp = (char *)dst;
+   d:	73 69                	jae    78 <.debug_str+0x78>
+   f:	7a 65                	jp     76 <.debug_str+0x76>
+  11:	5f                   	pop    %edi
+
+    for (; n > 0; --n)
+  12:	74 00                	je     14 <.debug_str+0x14>
+        *dp++ = *sp++;
+  14:	75 6e                	jne    84 <.debug_str+0x84>
+  16:	73 69                	jae    81 <.debug_str+0x81>
+  18:	67 6e                	outsb  %ds:(%si),(%dx)
+  1a:	65 64 20 63 68       	gs and %ah,%fs:%gs:0x68(%ebx)
+  1f:	61                   	popa   
+  20:	72 00                	jb     22 <.debug_str+0x22>
+  22:	47                   	inc    %edi
+  23:	4e                   	dec    %esi
+  24:	55                   	push   %ebp
+  25:	20 43 20             	and    %al,0x20(%ebx)
+void* memcpy(void *dst, void *src, size_t n)
+{
+    const char *sp = (const char *)src;
+    char *dp = (char *)dst;
+
+    for (; n > 0; --n)
+  28:	34 2e                	xor    $0x2e,%al
+  2a:	37                   	aaa    
+  2b:	2e 33 00             	xor    %cs:(%eax),%eax
+  2e:	73 68                	jae    98 <memset+0x62>
+  30:	6f                   	outsl  %ds:(%esi),(%dx)
+        *dp++ = *sp++;
+
+    return dst;
+  31:	72 74                	jb     a7 <memset+0x71>
+  33:	20 75 6e             	and    %dh,0x6e(%ebp)
+}
+
+void *memset(void *dst, char val, size_t n)
+{
+  36:	73 69                	jae    a1 <memset+0x6b>
+  38:	67 6e                	outsb  %ds:(%si),(%dx)
+  3a:	65 64 20 69 6e       	gs and %ch,%fs:%gs:0x6e(%ecx)
+  3f:	74 00                	je     41 <.debug_str+0x41>
+  41:	6d                   	insl   (%dx),%es:(%edi)
+    char *dp = (char *)dst;
+  42:	65                   	gs
+  43:	6d                   	insl   (%dx),%es:(%edi)
+  44:	73 65                	jae    ab <memset+0x75>
+  46:	74 00                	je     48 <.debug_str+0x48>
+
+    for (; n > 0; --n)
+  48:	6d                   	insl   (%dx),%es:(%edi)
+  49:	65                   	gs
+    {
+        *dp++ = val;
+  4a:	6d                   	insl   (%dx),%es:(%edi)
+  4b:	63 70 79             	arpl   %si,0x79(%eax)
+  4e:	00 63 68             	add    %ah,0x68(%ebx)
+  51:	61                   	popa   
+  52:	72 00                	jb     54 <.debug_str+0x54>
+  54:	2f                   	das    
+  55:	68 6f 6d 65 2f       	push   $0x2f656d6f
+
+void *memset(void *dst, char val, size_t n)
+{
+    char *dp = (char *)dst;
+
+    for (; n > 0; --n)
+  5a:	62 6c 65 73          	bound  %ebp,0x73(%ebp,%eiz,2)
+  5e:	73 65                	jae    c5 <memset+0x8f>
+  60:	64                   	fs
+    {
+        *dp++ = val;
+    }
+
+    return dst;
+  61:	2f                   	das    
+  62:	50                   	push   %eax
+  63:	72 6f                	jb     d4 <memset+0x9e>
+}
+  65:	67 72 61             	addr16 jb c9 <memset+0x93>
+  68:	6d                   	insl   (%dx),%es:(%edi)
+  69:	6f                   	outsl  %ds:(%esi),(%dx)
+  6a:	77 61                	ja     cd <memset+0x97>
+  6c:	6e                   	outsb  %ds:(%esi),(%dx)
+  6d:	69 65 2f 62 6c 65 73 	imul   $0x73656c62,0x2f(%ebp),%esp
+  74:	73 4f                	jae    c5 <memset+0x8f>
+  76:	53                   	push   %ebx
+  77:	2f                   	das    
+  78:	65                   	gs
+  79:	78 2f                	js     aa <memset+0x74>
+  7b:	73 72                	jae    ef <memset+0xb9>
+  7d:	63 2f                	arpl   %bp,(%edi)
+  7f:	63 6f 6d             	arpl   %bp,0x6d(%edi)
+  82:	6d                   	insl   (%dx),%es:(%edi)
+  83:	6f                   	outsl  %ds:(%esi),(%dx)
+  84:	6e                   	outsb  %ds:(%esi),(%dx)
+  85:	2f                   	das    
+  86:	73 74                	jae    fc <memset+0xc6>
+  88:	72 69                	jb     f3 <memset+0xbd>
+  8a:	6e                   	outsb  %ds:(%esi),(%dx)
+  8b:	67 2e 63 00          	arpl   %ax,%cs:(%bx,%si)
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+/* This file is part of the GLEG engine (GPL v2 or later), see LICENSE.html */
+
+#include "common/string.h"
+
+void* memcpy(void *dst, void *src, size_t n)
+{
+   0:	00 47 43             	add    %al,0x43(%edi)
+   3:	43                   	inc    %ebx
+   4:	3a 20                	cmp    (%eax),%ah
+    const char *sp = (const char *)src;
+   6:	28 44 65 62          	sub    %al,0x62(%ebp,%eiz,2)
+   a:	69 61 6e 20 34 2e 37 	imul   $0x372e3420,0x6e(%ecx),%esp
+    char *dp = (char *)dst;
+  11:	2e 33 2d 34 29 20 34 	xor    %cs:0x34202934,%ebp
+
+    for (; n > 0; --n)
+        *dp++ = *sp++;
+  18:	2e                   	cs
+  19:	37                   	aaa    
+  1a:	2e 33 00             	xor    %cs:(%eax),%eax
+
+Disassembly of section .eh_frame:
+
+00000000 <.eh_frame>:
+   0:	14 00                	adc    $0x0,%al
+   2:	00 00                	add    %al,(%eax)
+   4:	00 00                	add    %al,(%eax)
+   6:	00 00                	add    %al,(%eax)
+   8:	01 7a 52             	add    %edi,0x52(%edx)
+   b:	00 01                	add    %al,(%ecx)
+   d:	7c 08                	jl     17 <.eh_frame+0x17>
+   f:	01 1b                	add    %ebx,(%ebx)
+  11:	0c 04                	or     $0x4,%al
+  13:	04 88                	add    $0x88,%al
+  15:	01 00                	add    %eax,(%eax)
+  17:	00 1c 00             	add    %bl,(%eax,%eax,1)
+  1a:	00 00                	add    %al,(%eax)
+  1c:	1c 00                	sbb    $0x0,%al
+  1e:	00 00                	add    %al,(%eax)
+  20:	00 00                	add    %al,(%eax)
+			20: R_386_PC32	.text
+  22:	00 00                	add    %al,(%eax)
+  24:	36 00 00             	add    %al,%ss:(%eax)
+  27:	00 00                	add    %al,(%eax)
+  29:	41                   	inc    %ecx
+  2a:	0e                   	push   %cs
+  2b:	08 85 02 42 0d 05    	or     %al,0x50d4202(%ebp)
+  31:	72 c5                	jb     fffffff8 <memset+0xffffffc2>
+  33:	0c 04                	or     $0x4,%al
+  35:	04 00                	add    $0x0,%al
+  37:	00 1c 00             	add    %bl,(%eax,%eax,1)
+  3a:	00 00                	add    %al,(%eax)
+  3c:	3c 00                	cmp    $0x0,%al
+  3e:	00 00                	add    %al,(%eax)
+  40:	36 00 00             	add    %al,%ss:(%eax)
+			40: R_386_PC32	.text
+  43:	00 30                	add    %dh,(%eax)
+  45:	00 00                	add    %al,(%eax)
+  47:	00 00                	add    %al,(%eax)
+  49:	41                   	inc    %ecx
+  4a:	0e                   	push   %cs
+  4b:	08 85 02 42 0d 05    	or     %al,0x50d4202(%ebp)
+  51:	6c                   	insb   (%dx),%es:(%edi)
+  52:	c5 0c 04             	lds    (%esp,%eax,1),%ecx
+  55:	04 00                	add    $0x0,%al
+	...

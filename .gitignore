@@ -1,3 +1,7 @@
+*.o
+*.a
+*.so
+*.autosave
 blessOSEX.config
 blessOSEX.creator
 blessOSEX.creator.user

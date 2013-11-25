@@ -1,7 +1,8 @@
-/* This file is part of the GLEG engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the blessOS OS (GPL v2 or later), see LICENSE.html */
 
 #include <common/types.h>
 #include <common/printk.h>
+#include <console/console.h>
 
 static void parse_hex(char *buf, int num)
 {
@@ -48,6 +49,14 @@ int printk_get_level(const char *buffer)
     }
 
     return 0;
+}
+
+static inline const char *printk_skip_level(const char *buf)
+{
+    if (printk_get_level(buf))
+        return buf + 2;
+
+    return buf;
 }
 
 int vsprintf(char *buf, const char *fmt, va_list args)
@@ -130,12 +139,35 @@ int printk(const char *fmt, ...)
     int len;
     va_list args;
     char buf[1024];
+    char *text;
+
+    CONSOLE_COLOR con_bg = BLACK;
+    CONSOLE_COLOR con_fg = WHITE;
 
     va_start(args, fmt);
     len = vsprintf(buf, fmt, args);
     va_end(args);
 
+    text = buf;
 
+    int kern_level = printk_get_level(buf);
+
+    if (kern_level)
+    {
+        const char *end_of_header = printk_skip_level(buf);
+
+        len -= end_of_header - buf;
+        text = (char *)end_of_header;
+
+        con_bg = RED;
+        con_fg = YELLOW;
+    }
+
+    int i;
+    for (i = 0; i < len; ++i)
+    {
+        print_c(text[i], con_fg, con_bg);
+    }
 
     return len;
 }

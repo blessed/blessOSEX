@@ -2,6 +2,7 @@
 *.a
 *.so
 *.autosave
+*.disasm
 blessOSEX.config
 blessOSEX.creator
 blessOSEX.creator.user

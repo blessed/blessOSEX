@@ -1,9 +1,11 @@
-/* This file is part of the GLEG engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the blessOS OS (GPL v2 or later), see LICENSE.html */
 
 #include <common/types.h>
 #include <io/asmio.h>
 #include <common/string.h>
+#include <common/circular_buffer.h>
 #include <console/console.h>
+#include <terminal/terminal.h>
 
 static int csr_x, csr_y;
 
@@ -57,6 +59,17 @@ void clear_screen()
     int count = CONSOLE_WIDTH * CONSOLE_HEIGHT;
     for (; count > 0; count--)
         *vga_mem++ = blankchar;
+}
+
+void console_write(tty_t *tty)
+{
+    int len = cb_size(&tty->write_buf);
+
+    while (len--)
+    {
+        char c = (char)cb_pop(&tty->write_buf);
+        print_c(c, WHITE, BLACK);
+    }
 }
 
 void print_c(char c, CONSOLE_COLOR fg, CONSOLE_COLOR bg)

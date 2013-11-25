@@ -52,6 +52,9 @@ disasm: $(DISASM_DIR) $(disasms)
 qemu:
 	qemu -fda floppy.img -hda disk.img -boot a -m 8
 
+qemu_debug:
+	qemu -fda floppy.img -hda disk.img -boot a -m 8 -s -S
+
 clean:
 	@echo "Cleaning object files... "
 	-@rm -f $(objects)

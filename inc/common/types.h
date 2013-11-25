@@ -1,4 +1,4 @@
-/* This file is part of the GLEG engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the blessOS OS (GPL v2 or later), see LICENSE.html */
 
 #ifndef TYPES_H
 #define TYPES_H
@@ -20,5 +20,9 @@ typedef int                 size_t;
 typedef unsigned int        u32int;
 typedef unsigned short      u16int;
 typedef unsigned char       u8int;
+
+typedef int                 s32int;
+typedef short               s16int;
+typedef char                s8int;
 
 #endif // TYPES_H

@@ -1,4 +1,4 @@
-/* This file is part of the GLEG engine (GPL v2 or later), see LICENSE.html */
+/* This file is part of the blessOS OS (GPL v2 or later), see LICENSE.html */
 
 #include "io/asmio.h"
 

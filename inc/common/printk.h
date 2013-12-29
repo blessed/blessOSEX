@@ -3,6 +3,8 @@
 #ifndef PRINTK_H
 #define PRINTK_H
 
+#include <common/types.h>
+
 #define KERN_SOH        "\001"
 #define KERN_SOH_ASCII  '\001'
 

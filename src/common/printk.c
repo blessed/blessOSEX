@@ -1,19 +1,18 @@
 /* This file is part of the blessOS OS (GPL v2 or later), see LICENSE.html */
 
-#include <common/types.h>
 #include <common/printk.h>
 #include <console/console.h>
 
-static void parse_hex(char *buf, int num)
+static void parse_hex(char *buf, int *index, int num)
 {
-    int i = 7;
-    while (i-- >= 0)
+    int i = 8;
+    while (i-- > 0)
     {
-        *buf++ = "0123456789abcdef"[(num >> (i * 4)) & 0x0f];
+        buf[(*index)++] = "0123456789abcdef"[(num >> (i * 4)) & 0x0f];
     }
 }
 
-static void parse_num(char *buf, int num, int base)
+static void parse_num(char *buf, int *index, int num, int base)
 {
     u32int n = num / base;
     int r = num % base;
@@ -24,9 +23,10 @@ static void parse_num(char *buf, int num, int base)
     }
 
     if (num >= base)
-        parse_num(buf, n, base);
+        parse_num(buf, index, n, base);
 
-    *buf++ = "0123456789"[r];
+//    *buf++ = "0123456789"[r];
+    buf[(*index)++] = "0123456789"[r];
 }
 
 int printk_get_level(const char *buffer)
@@ -92,11 +92,11 @@ int vsprintf(char *buf, const char *fmt, va_list args)
 
             case 'p':
             case 'x':
-                parse_hex(buf, (u32int)va_arg(args, u32int));
+                parse_hex(buf, &index, (u32int)va_arg(args, u32int));
                 break;
 
             case 'd':
-                parse_num(buf, (u32int)va_arg(args, u32int), 10);
+                parse_num(buf, &index, (u32int)va_arg(args, u32int), 10);
                 break;
 
             case '%':
@@ -159,8 +159,12 @@ int printk(const char *fmt, ...)
         len -= end_of_header - buf;
         text = (char *)end_of_header;
 
-        con_bg = RED;
-        con_fg = YELLOW;
+        kern_level -= '0';
+        if (kern_level < 4)
+        {
+            con_bg = RED;
+            con_fg = YELLOW;
+        }
     }
 
     int i;

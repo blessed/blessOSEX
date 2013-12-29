@@ -1,6 +1,6 @@
 .code32
 .text
-.globl startup_32, gdt, idt, pg_dir
+.globl startup_32, gdt, idt, pg_dir, idt_descr
 .extern main, stack_start
 .org 0
 
